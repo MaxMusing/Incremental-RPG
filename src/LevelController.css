@@ -1,0 +1,11 @@
+.LevelController {
+	margin: 1rem 0;
+}
+
+.LevelText {
+	margin: 0 1rem;
+}
+
+.ChangeLevelButton {
+	cursor: pointer;
+}
