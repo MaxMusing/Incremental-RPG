@@ -7,6 +7,7 @@ import Enemy from './Enemy';
 import Weapon from './Weapon';
 import CharacterInfo from './CharacterInfo';
 import LevelController from './LevelController';
+import Log from './Log';
 
 class App extends Component {
 	constructor(props) {
@@ -21,14 +22,17 @@ class App extends Component {
 		this.state = {
 			time: 0,
 			hero: new Hero({
+				app: this,
 				name: 'Hero',
 				weapon: startingWeapon,
 			}),
 			enemy: new Enemy({
+				app: this,
 				name: 'Enemy',
 				level: 1,
 			}),
 			level: 1,
+			log: [],
 		};
 
 		setInterval(() => {
@@ -71,6 +75,7 @@ class App extends Component {
 	startNewFight() {
 		let hero = this.state.hero;
 		let enemy = new Enemy({
+			app: this,
 			name: 'Enemy',
 			level: this.state.level,
 		});
@@ -92,12 +97,19 @@ class App extends Component {
 		});
 	}
 
+	addToLog(message) {
+		let log = this.state.log;
+		log.push(message);
+		this.setState({log});
+	}
+
 	render() {
 		return (
 			<div className="App">
 				<CharacterInfo character={this.state.hero} />
 				<CharacterInfo character={this.state.enemy} />
 				<LevelController level={this.state.level} previousLevel={this.previousLevel.bind(this)} nextLevel={this.nextLevel.bind(this)} />
+				<Log log={this.state.log} />
 			</div>
 		);
 	}

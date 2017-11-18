@@ -10,6 +10,7 @@ const baseXpGiven = 10;
 
 class Character {
 	constructor(props) {
+		this.app = props.app || null;
 		this.name = props.name || baseName;
 		this.level = props.level || baseLevel;
 		this.hp = props.hp || baseHp;
@@ -79,7 +80,7 @@ class Character {
 	}
 
 	die() {
-
+		this.app.addToLog(`${this.name} was defeated (+${this.xpGiven()} XP).`);
 	}
 
 	xpPercent() {
@@ -100,6 +101,7 @@ class Character {
 	levelUp() {
 		this.level += 1;
 		this.xpMax = this.requiredXp();
+		this.app.addToLog('Level up!');
 	}
 
 	requiredXp() {

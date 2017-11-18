@@ -1,0 +1,13 @@
+.Log {
+	width: calc(100% / 3);
+	height: 100%;
+	position: absolute;
+	top: 0;
+	right: 0;
+	overflow-y: scroll;
+}
+
+.LogMessage {
+	margin: 0;
+	line-height: 1.5;
+}
