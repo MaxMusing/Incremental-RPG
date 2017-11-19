@@ -6,6 +6,7 @@ import Hero from './Hero';
 import Enemy from './Enemy';
 import Weapon from './Weapon';
 import CharacterInfo from './CharacterInfo';
+import HeroStatBars from './HeroStatBars';
 import LevelController from './LevelController';
 import SkillAllocation from './SkillAllocation';
 import Log from './Log';
@@ -36,6 +37,8 @@ class App extends Component {
 			log: [],
 		};
 
+		this.addToLog('Welcome to Incremental RPG!');
+
 		setInterval(() => {
 			this.update();
 		}, 1000 / Globals.updatesPerSecond);
@@ -47,6 +50,10 @@ class App extends Component {
 		});
 
 		this.heroAttack();
+	}
+
+	generateEnemy() {
+
 	}
 
 	heroAttack() {
@@ -137,10 +144,13 @@ class App extends Component {
 	render() {
 		return (
 			<div className="App">
-				<CharacterInfo character={this.state.hero} />
-				<CharacterInfo character={this.state.enemy} />
-				<LevelController level={this.state.level} previousLevel={this.previousLevel.bind(this)} nextLevel={this.nextLevel.bind(this)} />
-				<SkillAllocation character={this.state.hero} allocateSkillPoints={this.allocateSkillPoints.bind(this)} />
+				<main className="MainWindow">
+					<CharacterInfo character={this.state.hero} />
+					<CharacterInfo character={this.state.enemy} />
+					<LevelController level={this.state.level} previousLevel={this.previousLevel.bind(this)} nextLevel={this.nextLevel.bind(this)} />
+					<SkillAllocation character={this.state.hero} allocateSkillPoints={this.allocateSkillPoints.bind(this)} />
+				</main>
+				<HeroStatBars hero={this.state.hero} />
 				<Log log={this.state.log} />
 			</div>
 		);

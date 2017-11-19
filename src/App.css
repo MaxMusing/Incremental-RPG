@@ -1,3 +1,18 @@
 .App {
-	margin: 3rem;
+	display: grid;
+	grid-template-columns: 2fr 1fr;
+	grid-template-rows: 9fr 1fr;
+	grid-template-areas:
+		"main log"
+		"bars log";
+	grid-column-gap: 2rem;
+	grid-row-gap: 2rem;
+
+	box-sizing: border-box;
+	height: 100vh;
+	padding: 3rem;
+}
+
+.MainWindow {
+	grid-area: main;
 }
