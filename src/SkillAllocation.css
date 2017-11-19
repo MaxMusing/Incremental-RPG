@@ -1,0 +1,17 @@
+.SkillAllocation {
+	border: 1px solid black;
+    border-collapse: collapse;
+}
+
+.SkillAllocationButton {
+	cursor: pointer;
+}
+
+th, td {
+	border: 1px solid black;
+	padding: 0.5rem;
+}
+
+td:not(:first-of-type) {
+	text-align: right;
+}

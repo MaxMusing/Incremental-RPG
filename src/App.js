@@ -7,6 +7,7 @@ import Enemy from './Enemy';
 import Weapon from './Weapon';
 import CharacterInfo from './CharacterInfo';
 import LevelController from './LevelController';
+import SkillAllocation from './SkillAllocation';
 import Log from './Log';
 
 class App extends Component {
@@ -97,6 +98,36 @@ class App extends Component {
 		});
 	}
 
+	allocateSkillPoints(attribute, number) {
+		const hero = this.state.hero;
+		const skillPoints = hero.skillPoints;
+
+		if (skillPoints >= number) {
+			switch (attribute) {
+				case 'Strength':
+					hero.strength += number;
+					hero.skillPoints -= number;
+					break;
+				case 'Dexterity':
+					hero.dexterity += number;
+					hero.skillPoints -= number;
+					break;
+				case 'Constitution':
+					hero.constitution += number;
+					hero.skillPoints -= number;
+					break;
+				case 'Intelligence':
+					hero.intelligence += number;
+					hero.skillPoints -= number;
+					break;
+				default:
+					break;
+			}
+
+			this.setState({hero});
+		}
+	}
+
 	addToLog(message) {
 		let log = this.state.log;
 		log.push(message);
@@ -109,6 +140,7 @@ class App extends Component {
 				<CharacterInfo character={this.state.hero} />
 				<CharacterInfo character={this.state.enemy} />
 				<LevelController level={this.state.level} previousLevel={this.previousLevel.bind(this)} nextLevel={this.nextLevel.bind(this)} />
+				<SkillAllocation character={this.state.hero} allocateSkillPoints={this.allocateSkillPoints.bind(this)} />
 				<Log log={this.state.log} />
 			</div>
 		);

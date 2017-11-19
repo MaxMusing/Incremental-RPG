@@ -1,30 +1,53 @@
 import * as Globals from './Globals';
+import { pluralize } from './Utilities';
 
 const baseName = 'Character';
 const baseLevel = 1;
-const baseHp = 100;
-const baseXpMax = 100;
-const baseAttack = 10;
-const baseAttackSpeed = 1;
 const baseXpGiven = 10;
 
 class Character {
 	constructor(props) {
 		this.app = props.app || null;
 		this.name = props.name || baseName;
-		this.level = props.level || baseLevel;
-		this.hp = props.hp || baseHp;
-		this.hpMax = props.hpMax || baseHp;
+
 		this.xp = props.xp || 0;
-		this.xpMax = props.xpMax || baseXpMax;
-		this.attack = props.attack || baseAttack;
-		this.attackSpeed = props.attackSpeed || baseAttackSpeed;
+		this.level = props.level || baseLevel;
+
+		this.skillPoints = props.skillPoints || 0;
+		this.strength = props.strength || 1;
+		this.dexterity = props.dexterity || 1;
+		this.constitution = props.constitution || 1;
+		this.intelligence = props.intelligence || 1;
+
+		this.hp = props.hp || this.hpMax();
 		this.weapon = props.weapon || null;
+	}
+
+	hpMax() {
+		const baseHpMax = 100;
+		const constitutionMultiplier = 1.1;
+
+		return (
+			Math.round(
+				baseHpMax * Math.pow(constitutionMultiplier, this.constitution - 1)
+			)
+		);
+	}
+
+	attack() {
+		const baseAttack = 10;
+		const strengthMultiplier = 1.1;
+
+		return (
+			Math.round(
+				baseAttack * Math.pow(strengthMultiplier, this.strength - 1)
+			)
+		);
 	}
 
 	effectiveAttack() {
 		return (
-			this.attack + (
+			this.attack() + (
 				this.weapon ?
 				this.weapon.attackBoost :
 				0
@@ -32,9 +55,18 @@ class Character {
 		);
 	}
 
+	attackSpeed() {
+		const baseAttackSpeed = 1;
+		const dexterityMultiplier = 1.1;
+
+		return (
+			baseAttackSpeed * Math.pow(dexterityMultiplier, this.dexterity - 1)
+		);
+	}
+
 	effectiveAttackSpeed() {
 		return (
-			this.attackSpeed * (
+			this.attackSpeed() * (
 				this.weapon ?
 				this.weapon.attackSpeedMultiplier :
 				1
@@ -59,12 +91,12 @@ class Character {
 
 	hpPercent() {
 		return (
-			this.hp / this.hpMax * 100
+			this.hp / this.hpMax() * 100
 		);
 	}
 
 	fullyHeal() {
-		this.hp = this.hpMax;
+		this.hp = this.hpMax();
 	}
 
 	changeHp(amount) {
@@ -74,8 +106,8 @@ class Character {
 			this.die();
 		}
 
-		if (this.hp > this.hpMax) {
-			this.hp = this.hpMax;
+		if (this.hp > this.hpMax()) {
+			this.hp = this.hpMax();
 		}
 	}
 
@@ -85,29 +117,32 @@ class Character {
 
 	xpPercent() {
 		return (
-			this.xp / this.xpMax * 100
+			this.xp / this.xpMax() * 100
 		);
 	}
 
 	changeXp(amount) {
 		this.xp += amount;
 
-		while (this.xp >= this.xpMax) {
-			this.xp -= this.xpMax;
+		while (this.xp >= this.xpMax()) {
+			this.xp -= this.xpMax();
 			this.levelUp();
 		}
 	}
 
 	levelUp() {
 		this.level += 1;
-		this.xpMax = this.requiredXp();
-		this.app.addToLog('Level up!');
+		this.skillPoints += this.level;
+		this.app.addToLog(`${this.name} levelled up (+${this.level} skill point${pluralize(this.level)}).`);
 	}
 
-	requiredXp() {
+	xpMax() {
+		const baseXpMax = 100;
+		const levelMultiplier = 1.1;
+
 		return (
 			Math.floor(
-				baseXpMax * Math.pow(1.1, this.level - 1)
+				baseXpMax * Math.pow(levelMultiplier, this.level - 1)
 			)
 		);
 	}

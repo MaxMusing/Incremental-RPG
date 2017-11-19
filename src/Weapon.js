@@ -7,7 +7,7 @@ class Weapon {
 
 	verboseName() {
 		return (
-			`${this.name} (${this.verboseAttackBoost()} attack, ${this.attackSpeedMultiplier}x attack speed)`
+			`${this.name} (${this.verboseAttackBoost()} attack, ${this.attackSpeedMultiplier}× attack speed)`
 		);
 	}
 
