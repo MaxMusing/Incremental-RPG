@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import './HeroStatBars.css';
-import { verboseNumber } from './Utilities';
 
 class HeroStatBars extends Component {
 	render() {

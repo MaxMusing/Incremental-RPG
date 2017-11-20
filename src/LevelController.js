@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import './LevelController.css';
-import { verboseNumber } from './Utilities';
 
 class LevelController extends Component {
 	render() {

@@ -1,0 +1,18 @@
+.MainWindow {
+	grid-area: main;
+}
+
+.TabContainer {
+	line-height: 1.5;
+	display: flex;
+	justify-content: space-between;
+	margin-bottom: 2rem;
+}
+
+.Tab {
+	cursor: pointer;
+}
+
+.Tab.Selected {
+	text-decoration: underline;
+}

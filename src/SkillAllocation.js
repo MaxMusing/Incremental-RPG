@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import './SkillAllocation.css';
-import { verboseNumber } from './Utilities';
 
 class SkillAllocation extends Component {
 	render() {

@@ -32,7 +32,7 @@
 .HealthBar {
 	position: relative;
 	width: 100%;
-	height: 2.5rem;
+	height: 2rem;
 	border: 1px solid black;
 }
 

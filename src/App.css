@@ -12,7 +12,3 @@
 	height: 100vh;
 	padding: 3rem;
 }
-
-.MainWindow {
-	grid-area: main;
-}

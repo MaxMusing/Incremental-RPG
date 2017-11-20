@@ -1,5 +1,4 @@
 import Character from './Character';
-import Weapon from './Weapon';
 
 class Hero extends Character {
 	constructor(props) {
