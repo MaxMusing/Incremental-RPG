@@ -14,6 +14,7 @@ class Character {
 	constructor(props) {
 		this.app = props.app || null;
 		this.name = props.name || baseName;
+		this.inventory = props.inventory || [];
 
 		this.xp = props.xp || 0;
 		this.level = props.level || baseLevel;
@@ -155,6 +156,10 @@ class Character {
 				baseXpGiven * Math.pow(1.1, this.level - 1)
 			)
 		);
+	}
+
+	pickUpItem(item) {
+		this.inventory.push(item);
 	}
 
 	equipWeapon(weapon) {

@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import './MainWindow.css';
 
-import { verboseNumber } from './Utilities';
-
 import EnemyStatBars from './EnemyStatBars';
 import HeroStats from './HeroStats';
+import Inventory from './Inventory';
 import LevelController from './LevelController';
 import SkillAllocation from './SkillAllocation';
 
@@ -21,6 +20,7 @@ class MainWindow extends Component {
 		const tabNames = [
 			'Battle',
 			'Stats',
+			'Inventory',
 			'Map',
 		];
 
@@ -28,7 +28,7 @@ class MainWindow extends Component {
 			tabs.push(
 				<span
 					key={tabName}
-					className={`Tab ${this.state.selectedTab == index ? ' Selected' : ''}`}
+					className={`Tab ${this.state.selectedTab === index ? ' Selected' : ''}`}
 					onClick={() => this.setState({selectedTab: index})}
 				>
 					{tabName}
@@ -47,18 +47,23 @@ class MainWindow extends Component {
 				</div>
 
 				<div className="PageContainer">
-					{this.state.selectedTab == 0 &&
+					{this.state.selectedTab === 0 &&
 						<div className="Page">
 							<EnemyStatBars enemy={this.props.enemy} />
 						</div>
 					}
-					{this.state.selectedTab == 1 &&
+					{this.state.selectedTab === 1 &&
 						<div className="Page">
 							<HeroStats hero={this.props.hero} />
 							<SkillAllocation character={this.props.hero} allocateSkillPoints={this.props.allocateSkillPoints} />
 						</div>
 					}
-					{this.state.selectedTab == 2 &&
+					{this.state.selectedTab === 2 &&
+						<div className="Page">
+							<Inventory hero={this.props.hero} />
+						</div>
+					}
+					{this.state.selectedTab === 3 &&
 						<div className="Page">
 							<LevelController level={this.props.level} previousLevel={this.props.previousLevel} nextLevel={this.props.nextLevel} />
 						</div>

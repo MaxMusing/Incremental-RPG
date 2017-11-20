@@ -1,6 +1,9 @@
-class Weapon {
+import Item from './Item';
+
+class Weapon extends Item {
 	constructor(props) {
-		this.name = props.name;
+		super(props);
+
 		this.damage = props.damage;
 		this.attackSpeed = props.attackSpeed;
 	}

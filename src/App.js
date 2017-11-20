@@ -4,7 +4,6 @@ import './App.css';
 import * as Globals from './Globals';
 import Hero from './Hero';
 import Enemy from './Enemy';
-import Weapon from './Weapon';
 
 import MainWindow from './MainWindow';
 import HeroStatBars from './HeroStatBars';
@@ -54,8 +53,15 @@ class App extends Component {
 		} else {
 			const xpGained = Math.round(enemy.xpGiven() * hero.xpGainedMultiplier());
 			hero.gainXp(xpGained);
-			this.setState({hero});
+
 			this.addToLog(`${enemy.name} was defeated (+${xpGained} XP).`);
+
+			for (let item of enemy.inventory) {
+				hero.pickUpItem(item);
+				this.addToLog(`You found a ${item.name}.`);
+			}
+
+			this.setState({hero});
 			this.startNewFight();
 		}
 	}
@@ -105,6 +111,8 @@ class App extends Component {
 				case 3:
 					intelligence++;
 					break;
+				default:
+					break;
 			}
 		}
 
@@ -117,6 +125,18 @@ class App extends Component {
 				dexterity: dexterity,
 				constitution: constitution,
 				intelligence: intelligence,
+				drops: [
+					{
+						chance: 0.02,
+						item: "dagger",
+						level: level
+					},
+					{
+						chance: 0.02,
+						item: "sword",
+						level: level
+					}
+				]
 			})
 		);
 	}

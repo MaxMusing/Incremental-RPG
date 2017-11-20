@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import './HeroStats.css';
 import { verboseNumber } from './Utilities';
-import Hero from './Hero';
 
 class HeroStats extends Component {
 	render() {
