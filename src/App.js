@@ -14,18 +14,11 @@ class App extends Component {
 	constructor(props) {
 		super(props);
 
-		const startingWeapon = new Weapon({
-			name: 'Stick',
-			attackBoost: 2,
-			attackSpeedMultiplier: 1,
-		});
-
 		this.state = {
 			time: 0,
 			hero: new Hero({
 				app: this,
 				name: 'Hero',
-				weapon: startingWeapon,
 			}),
 			enemy: new Enemy({
 				app: this,

@@ -3,7 +3,8 @@ import './MainWindow.css';
 
 import { verboseNumber } from './Utilities';
 
-import CharacterInfo from './CharacterInfo';
+import EnemyStatBars from './EnemyStatBars';
+import HeroStats from './HeroStats';
 import LevelController from './LevelController';
 import SkillAllocation from './SkillAllocation';
 
@@ -48,12 +49,12 @@ class MainWindow extends Component {
 				<div className="PageContainer">
 					{this.state.selectedTab == 0 &&
 						<div className="Page">
-							<CharacterInfo character={this.props.hero} />
-							<CharacterInfo character={this.props.enemy} />
+							<EnemyStatBars enemy={this.props.enemy} />
 						</div>
 					}
 					{this.state.selectedTab == 1 &&
 						<div className="Page">
+							<HeroStats hero={this.props.hero} />
 							<SkillAllocation character={this.props.hero} allocateSkillPoints={this.props.allocateSkillPoints} />
 						</div>
 					}

@@ -1,9 +1,14 @@
 import * as Globals from './Globals';
-import { pluralize } from './Utilities';
+import Weapon from './Weapon';
 
 const baseName = 'Character';
 const baseLevel = 1;
 const baseXpGiven = 10;
+const defaultWeapon = new Weapon({
+	name: 'Fists',
+	damage: 5,
+	attackSpeed: 1,
+});
 
 class Character {
 	constructor(props) {
@@ -14,72 +19,62 @@ class Character {
 		this.level = props.level || baseLevel;
 
 		this.skillPoints = props.skillPoints || 0;
-		this.strength = props.strength || 1;
-		this.dexterity = props.dexterity || 1;
-		this.constitution = props.constitution || 1;
-		this.intelligence = props.intelligence || 1;
+		this.strength = props.strength || 0;
+		this.dexterity = props.dexterity || 0;
+		this.constitution = props.constitution || 0;
+		this.intelligence = props.intelligence || 0;
 
 		this.hp = props.hp || this.hpMax();
-		this.weapon = props.weapon || null;
+		this.weapon = props.weapon || defaultWeapon;
 	}
 
 	hpMax() {
-		const baseHpMax = 100;
+		const baseHpMax = 50;
 		const constitutionMultiplier = 1.1;
 
 		return (
 			Math.round(
-				baseHpMax * Math.pow(constitutionMultiplier, this.constitution - 1)
+				baseHpMax * Math.pow(constitutionMultiplier, this.constitution)
 			)
 		);
 	}
 
-	attack() {
-		const baseAttack = 10;
+	damageMultiplier() {
 		const strengthMultiplier = 1.1;
 
 		return (
 			Math.round(
-				baseAttack * Math.pow(strengthMultiplier, this.strength - 1)
+				Math.pow(strengthMultiplier, this.strength)
 			)
 		);
 	}
 
-	effectiveAttack() {
+	damage() {
 		return (
-			this.attack() + (
-				this.weapon ?
-				this.weapon.attackBoost :
-				0
-			)
+			this.weapon.damage * this.damageMultiplier()
+		);
+	}
+
+	attackSpeedMultiplier() {
+		const dexterityMultiplier = 1.1;
+
+		return (
+			Math.pow(dexterityMultiplier, this.dexterity)
 		);
 	}
 
 	attackSpeed() {
-		const baseAttackSpeed = 1;
-		const dexterityMultiplier = 1.1;
-
 		return (
-			baseAttackSpeed * Math.pow(dexterityMultiplier, this.dexterity - 1)
-		);
-	}
-
-	effectiveAttackSpeed() {
-		return (
-			this.attackSpeed() * (
-				this.weapon ?
-				this.weapon.attackSpeedMultiplier :
-				1
-			)
+			this.weapon.attackSpeed * this.attackSpeedMultiplier()
 		);
 	}
 
 	tickDamage(time) {
 		return (
-			this.effectiveAttackSpeed() > Globals.updatesPerSecond ?
-			this.effectiveAttack() * this.effectiveAttackSpeed() / Globals.updatesPerSecond : (
-				time % Math.round(Globals.updatesPerSecond / this.effectiveAttackSpeed()) === 0 ?
-				this.effectiveAttack() :
+			this.attackSpeed() > Globals.updatesPerSecond ?
+			this.damage() * this.attackSpeed() / Globals.updatesPerSecond : (
+				time % Math.round(Globals.updatesPerSecond / this.attackSpeed()) === 0 ?
+				this.damage() :
 				0
 			)
 		);
@@ -132,8 +127,8 @@ class Character {
 
 	levelUp() {
 		this.level += 1;
-		this.skillPoints += this.level;
-		this.app.addToLog(`${this.name} levelled up (+${this.level} skill point${pluralize(this.level)}).`);
+		this.skillPoints += 1;
+		this.app.addToLog(`${this.name} levelled up (+1 skill point).`);
 	}
 
 	xpMax() {

@@ -4,13 +4,15 @@
 
 .TabContainer {
 	line-height: 1.5;
-	display: flex;
-	justify-content: space-between;
 	margin-bottom: 2rem;
 }
 
 .Tab {
 	cursor: pointer;
+}
+
+.Tab + .Tab {
+	margin-left: 2rem;
 }
 
 .Tab.Selected {
