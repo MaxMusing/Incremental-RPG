@@ -28,13 +28,20 @@ class Character {
 		this.weapon = props.weapon || defaultWeapon;
 	}
 
-	hpMax() {
-		const baseHpMax = 50;
+	hpMaxMultiplier() {
 		const constitutionMultiplier = 1.1;
 
 		return (
+			Math.pow(constitutionMultiplier, this.constitution)
+		);
+	}
+
+	hpMax() {
+		const baseHpMax = 50;
+
+		return (
 			Math.round(
-				baseHpMax * Math.pow(constitutionMultiplier, this.constitution)
+				baseHpMax * this.hpMaxMultiplier()
 			)
 		);
 	}
@@ -43,15 +50,15 @@ class Character {
 		const strengthMultiplier = 1.1;
 
 		return (
-			Math.round(
-				Math.pow(strengthMultiplier, this.strength)
-			)
+			Math.pow(strengthMultiplier, this.strength)
 		);
 	}
 
 	damage() {
 		return (
-			this.weapon.damage * this.damageMultiplier()
+			Math.round(
+				this.weapon.damage * this.damageMultiplier()
+			)
 		);
 	}
 
@@ -97,17 +104,9 @@ class Character {
 	changeHp(amount) {
 		this.hp += amount;
 
-		if (this.hp <= 0) {
-			this.die();
-		}
-
 		if (this.hp > this.hpMax()) {
 			this.hp = this.hpMax();
 		}
-	}
-
-	die() {
-		this.app.addToLog(`${this.name} was defeated (+${this.xpGiven()} XP).`);
 	}
 
 	xpPercent() {
@@ -116,7 +115,15 @@ class Character {
 		);
 	}
 
-	changeXp(amount) {
+	xpGainedMultiplier() {
+		const intelligenceMultiplier = 1.1;
+
+		return (
+			Math.pow(intelligenceMultiplier, this.intelligence)
+		);
+	}
+
+	gainXp(amount) {
 		this.xp += amount;
 
 		while (this.xp >= this.xpMax()) {

@@ -20,11 +20,7 @@ class App extends Component {
 				app: this,
 				name: 'Hero',
 			}),
-			enemy: new Enemy({
-				app: this,
-				name: 'Enemy',
-				level: 1,
-			}),
+			enemy: this.generateEnemy(1),
 			level: 1,
 			log: [],
 		};
@@ -46,10 +42,6 @@ class App extends Component {
 		this.heroAttack();
 	}
 
-	generateEnemy() {
-
-	}
-
 	heroAttack() {
 		let hero = this.state.hero;
 		let enemy = this.state.enemy;
@@ -60,8 +52,10 @@ class App extends Component {
 		if (enemy.alive()) {
 			this.enemyAttack();
 		} else {
-			hero.changeXp(enemy.xpGiven());
+			const xpGained = Math.round(enemy.xpGiven() * hero.xpGainedMultiplier());
+			hero.gainXp(xpGained);
 			this.setState({hero});
+			this.addToLog(`${enemy.name} was defeated (+${xpGained} XP).`);
 			this.startNewFight();
 		}
 	}
@@ -71,20 +65,60 @@ class App extends Component {
 		let enemy = this.state.enemy;
 
 		hero.changeHp(-enemy.tickDamage(this.state.time));
+
+		if (!hero.alive()) {
+			this.addToLog(`${hero.name} was defeated.`);
+			this.startNewFight();
+		}
+
 		this.setState({hero});
 	}
 
 	startNewFight() {
 		let hero = this.state.hero;
-		let enemy = new Enemy({
-			app: this,
-			name: 'Enemy',
-			level: this.state.level,
-		});
+		let enemy = this.generateEnemy(this.state.level);
 
 		hero.fullyHeal();
 
 		this.setState({hero, enemy});
+	}
+
+	generateEnemy(level) {
+		let strength = 0;
+		let dexterity = 0;
+		let constitution = 0;
+		let intelligence = 0;
+
+		for (let i = 0; i < level; i++) {
+			const attribute = Math.floor(Math.random() * 4);
+
+			switch (attribute) {
+				case 0:
+					strength++;
+					break;
+				case 1:
+					dexterity++;
+					break;
+				case 2:
+					constitution++;
+					break;
+				case 3:
+					intelligence++;
+					break;
+			}
+		}
+
+		return (
+			new Enemy({
+				app: this,
+				name: 'Enemy',
+				level: level,
+				strength: strength,
+				dexterity: dexterity,
+				constitution: constitution,
+				intelligence: intelligence,
+			})
+		);
 	}
 
 	previousLevel() {

@@ -13,6 +13,11 @@ class HeroStats extends Component {
 				<p className="HeroStat">Weapon: {this.props.hero.weapon ? this.props.hero.weapon.name : 'None'}</p>
 				<p className="HeroStat">Damage: {verboseNumber(this.props.hero.weapon.damage)}</p>
 				<p className="HeroStat">Attack Speed: {verboseNumber(this.props.hero.weapon.attackSpeed)}</p>
+				<br />
+				<p className="HeroStat">Strength: {this.props.hero.strength} ({verboseNumber(this.props.hero.damageMultiplier())}x damage)</p>
+				<p className="HeroStat">Dexterity: {this.props.hero.dexterity} ({verboseNumber(this.props.hero.attackSpeedMultiplier())}x attack speed)</p>
+				<p className="HeroStat">Constitution: {this.props.hero.constitution} ({verboseNumber(this.props.hero.hpMaxMultiplier())}x max health)</p>
+				<p className="HeroStat">Intelligence: {this.props.hero.intelligence} ({verboseNumber(this.props.hero.xpGainedMultiplier())}x experience gained)</p>
 			</div>
 		);
 	}
