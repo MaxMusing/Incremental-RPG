@@ -1,5 +1,7 @@
 import Character from './Character';
-import allItems from './Items';
+import { getItem } from './Items';
+
+import Weapon from './Weapon';
 
 class Enemy extends Character {
 	constructor(props) {
@@ -12,46 +14,36 @@ class Enemy extends Character {
 		for (let drop of drops) {
 			const rand = Math.random();
 			if (rand <= drop.chance) {
-				const item = this.generateItem(drop.item);
+				const item = getItem(drop.item);
 
 				if (item) {
-					this.pickUpItem(item);
+					const createdItem = this.createItem(item);
+					this.pickUpItem(createdItem);
 				}
 			}
 		}
 	}
 
-	generateItem(drop) {
-		const item = this.findItem(drop, allItems);
-
-		if (item) {
-			return (
-				new item.type({
-					name: item.name,
-					damage: item.damage,
-					attackSpeed: item.attackSpeed,
-				})
-			);
-		} else {
-			return null;
-		}
-	}
-
-	findItem(drop, group) {
-		if (drop in group) {
-			return group[drop];
-		} else {
-			for (let subgroup in group) {
-				if (group[subgroup] instanceof Object) {
-					const item = this.findItem(drop, group[subgroup]);
-
-					if (item) {
-						return item;
-					}
-				}
+	createItem(item) {
+		if (item.type) {
+			switch (item.type) {
+				case Weapon:
+					return (
+						new Weapon({
+							name: item.name,
+							damage: item.damage,
+							attackSpeed: item.attackSpeed,
+						})
+					);
+				default:
+					return ({
+						name: item.name,
+					});
 			}
-
-			return null;
+		} else {
+			return ({
+				name: item.name,
+			});
 		}
 	}
 }

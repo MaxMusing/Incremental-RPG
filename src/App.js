@@ -128,15 +128,15 @@ class App extends Component {
 				drops: [
 					{
 						chance: 0.02,
-						item: "dagger",
+						item: "weapon",
 						level: level
 					},
 					{
-						chance: 0.02,
-						item: "sword",
+						chance: 0.01,
+						item: "consumable",
 						level: level
-					}
-				]
+					},
+				],
 			})
 		);
 	}
