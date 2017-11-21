@@ -133,6 +133,11 @@ class App extends Component {
 					},
 					{
 						chance: 0.01,
+						item: "armour",
+						level: level
+					},
+					{
+						chance: 0.005,
 						item: "consumable",
 						level: level
 					},

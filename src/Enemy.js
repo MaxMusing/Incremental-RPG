@@ -14,7 +14,7 @@ class Enemy extends Character {
 		for (let drop of drops) {
 			const rand = Math.random();
 			if (rand <= drop.chance) {
-				const item = getItem(drop.item);
+				const item = getItem(drop.item, drop.level);
 
 				if (item) {
 					const createdItem = this.createItem(item);

@@ -5,25 +5,41 @@ let allItems = {
 		equipment: {
 			weapon: {
 				dagger: {
-					name: 'Dagger',
-					type: Weapon,
-					level: 3,
-					damage: 8,
-					attackSpeed: 1.2,
+					ironDagger: {
+						name: 'Iron Dagger',
+						type: Weapon,
+						level: 4,
+						damage: 10,
+						attackSpeed: 1.2,
+					},
+					steelDagger: {
+						name: 'Steel Dagger',
+						type: Weapon,
+						level: 14,
+						damage: 14,
+						attackSpeed: 1.3,
+					},
 				},
 				sword: {
 					woodenSword: {
 						name: 'Wooden Sword',
 						type: Weapon,
-						level: 6,
-						damage: 10,
+						level: 2,
+						damage: 8,
 						attackSpeed: 1,
 					},
 					ironSword: {
 						name: 'Iron Sword',
 						type: Weapon,
-						level: 16,
+						level: 12,
 						damage: 20,
+						attackSpeed: 1.1,
+					},
+					steelSword: {
+						name: 'Steel Sword',
+						type: Weapon,
+						level: 22,
+						damage: 25,
 						attackSpeed: 1.2,
 					},
 				},
@@ -32,7 +48,7 @@ let allItems = {
 					type: Weapon,
 					level: 10,
 					damage: 15,
-					attackSpeed: 0.6,
+					attackSpeed: 0.8,
 				},
 			},
 			armour: {
@@ -47,9 +63,25 @@ let allItems = {
 			},
 		},
 		consumable: {
-			smallHealthPotion: {
-				name: 'Small Health Potion',
-				level: 10,
+			potion: {
+				speedPotion: {
+					smallSpeedPotion: {
+						name: 'Small Speed Potion',
+						level: 10,
+					},
+					mediumSpeedPotion: {
+						name: 'Medium Speed Potion',
+						level: 20,
+					},
+					largeSpeedPotion: {
+						name: 'Large Speed Potion',
+						level: 30,
+					},
+					hugeSpeedPotion: {
+						name: 'Huge Speed Potion',
+						level: 40,
+					},
+				},
 			},
 		},
 	},
@@ -70,7 +102,7 @@ function setPath(node, parentPath) {
 	}
 }
 
-export function getItem(path) {
+export function getItem(path, level) {
 	const nodes = path.split('/').filter(node => node);
 	let node = findNode(nodes[0]);
 
@@ -83,7 +115,7 @@ export function getItem(path) {
 	const moveUpGroupChance = 0.05;
 	let willMoveUpGroup;
 	do {
-		willMoveUpGroup = Math.random() <= moveUpGroupChance && node != nodeParent(node);
+		willMoveUpGroup = Math.random() <= moveUpGroupChance && node !== nodeParent(node);
 
 		if (willMoveUpGroup) {
 			node = nodeParent(node);
@@ -92,7 +124,7 @@ export function getItem(path) {
 
 	return (
 		node ?
-		getItemFromNode(node) :
+		getItemFromNode(node, level) :
 		null
 	);
 }
@@ -117,21 +149,36 @@ function findNode(nodeName, group = allItems) {
 	}
 }
 
-function getItemFromNode(node) {
+function getItemFromNode(node, level) {
+	const leaves = getNodeLeaves(node);
+	leaves.sort((a, b) => {
+		const levelDifferenceA = Math.abs(a.level - level);
+		const levelDifferenceB = Math.abs(b.level - level);
+
+		return levelDifferenceA - levelDifferenceB;
+	});
+
+	const randomLeafIndex = Math.floor(Math.pow(Math.random(), 1.5) * leaves.length);
+
+	return leaves[randomLeafIndex];
+}
+
+function getNodeLeaves(node) {
+	let leaves = [];
+
 	if (node.hasOwnProperty('name')) {
-		return node;
+		leaves.push(node);
+		return leaves;
 	} else {
-		let keys = Object.keys(node).filter(key => key !== 'path');
-
-		if (keys.length === 0) {
-			return null;
-		} else {
-			const randomKeyIndex = Math.floor(Math.random() * keys.length);
-			const randomKey = keys[randomKeyIndex];
-			const childNode = node[randomKey];
-
-			return getItemFromNode(childNode);
+		for (let key in node) {
+			if (node.hasOwnProperty(key)) {
+				if (node[key] instanceof Object) {
+					leaves = leaves.concat(getNodeLeaves(node[key]));
+				}
+			}
 		}
+
+		return leaves;
 	}
 }
 
