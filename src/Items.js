@@ -80,6 +80,16 @@ export function getItem(path) {
 		}
 	});
 
+	const moveUpGroupChance = 0.05;
+	let willMoveUpGroup;
+	do {
+		willMoveUpGroup = Math.random() <= moveUpGroupChance && node != nodeParent(node);
+
+		if (willMoveUpGroup) {
+			node = nodeParent(node);
+		}
+	} while (willMoveUpGroup);
+
 	return (
 		node ?
 		getItemFromNode(node) :
@@ -123,6 +133,16 @@ function getItemFromNode(node) {
 			return getItemFromNode(childNode);
 		}
 	}
+}
+
+function nodeParent(node) {
+	const nodes = node.path.split('/').filter(node => node);
+
+	return (
+		nodes.length >= 2 ?
+		findNode(nodes[nodes.length - 2]) :
+		node
+	);
 }
 
 export default allItems;
