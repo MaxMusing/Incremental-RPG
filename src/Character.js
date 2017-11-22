@@ -26,7 +26,9 @@ class Character {
 		this.intelligence = props.intelligence || 0;
 
 		this.hp = props.hp || this.hpMax();
-		this.weapon = props.weapon || defaultWeapon;
+		this.equipment = {
+			weapon: props.weapon || defaultWeapon,
+		}
 	}
 
 	hpMaxMultiplier() {
@@ -58,7 +60,7 @@ class Character {
 	damage() {
 		return (
 			Math.round(
-				this.weapon.damage * this.damageMultiplier()
+				this.equipment.weapon.damage * this.damageMultiplier()
 			)
 		);
 	}
@@ -73,7 +75,7 @@ class Character {
 
 	attackSpeed() {
 		return (
-			this.weapon.attackSpeed * this.attackSpeedMultiplier()
+			this.equipment.weapon.attackSpeed * this.attackSpeedMultiplier()
 		);
 	}
 
@@ -163,7 +165,7 @@ class Character {
 	}
 
 	equipWeapon(weapon) {
-		this.weapon = weapon;
+		this.equipment.weapon = weapon;
 	}
 }
 

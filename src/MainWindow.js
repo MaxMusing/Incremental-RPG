@@ -60,7 +60,7 @@ class MainWindow extends Component {
 					}
 					{this.state.selectedTab === 2 &&
 						<div className="Page">
-							<Inventory hero={this.props.hero} />
+							<Inventory hero={this.props.hero} useItem={this.props.useItem} />
 						</div>
 					}
 					{this.state.selectedTab === 3 &&

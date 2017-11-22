@@ -9,9 +9,9 @@ class HeroStats extends Component {
 				<p className="HeroStat">{this.props.hero.name}</p>
 				<p className="HeroStat">Level: {verboseNumber(this.props.hero.level)}</p>
 				<br />
-				<p className="HeroStat">Weapon: {this.props.hero.weapon ? this.props.hero.weapon.name : 'None'}</p>
-				<p className="HeroStat">Damage: {verboseNumber(this.props.hero.weapon.damage)}</p>
-				<p className="HeroStat">Attack Speed: {verboseNumber(this.props.hero.weapon.attackSpeed)}</p>
+				<p className="HeroStat">Weapon: {this.props.hero.equipment.weapon ? this.props.hero.equipment.weapon.name : 'None'}</p>
+				<p className="HeroStat">Damage: {verboseNumber(this.props.hero.equipment.weapon.damage)}</p>
+				<p className="HeroStat">Attack Speed: {verboseNumber(this.props.hero.equipment.weapon.attackSpeed)}</p>
 				<br />
 				<p className="HeroStat">Strength: {this.props.hero.strength} ({verboseNumber(this.props.hero.damageMultiplier())}x damage)</p>
 				<p className="HeroStat">Dexterity: {this.props.hero.dexterity} ({verboseNumber(this.props.hero.attackSpeedMultiplier())}x attack speed)</p>

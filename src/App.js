@@ -146,6 +146,13 @@ class App extends Component {
 		);
 	}
 
+	useItem(item) {
+		let hero = this.state.hero;
+
+		hero.equipWeapon(item);
+		this.setState({hero});
+	}
+
 	previousLevel() {
 		this.setState({
 			level: Math.max(1, this.state.level - 1)
@@ -201,6 +208,7 @@ class App extends Component {
 					hero={this.state.hero}
 					enemy={this.state.enemy}
 					level={this.state.level}
+					useItem={this.useItem.bind(this)}
 					previousLevel={this.previousLevel.bind(this)}
 					nextLevel={this.nextLevel.bind(this)}
 					allocateSkillPoints={this.allocateSkillPoints.bind(this)}
