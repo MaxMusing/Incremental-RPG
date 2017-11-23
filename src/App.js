@@ -15,6 +15,7 @@ class App extends Component {
 
 		this.state = {
 			time: 0,
+			battleTime: 0,
 			hero: new Hero({
 				app: this,
 				name: 'Hero',
@@ -35,7 +36,8 @@ class App extends Component {
 
 	update() {
 		this.setState({
-			time: this.state.time + 1
+			time: this.state.time + 1,
+			battleTime: this.state.battleTime + 1,
 		});
 
 		this.heroAttack();
@@ -45,7 +47,7 @@ class App extends Component {
 		let hero = this.state.hero;
 		let enemy = this.state.enemy;
 
-		enemy.changeHp(-hero.tickDamage(this.state.time));
+		enemy.changeHp(-hero.tickDamage(this.state.battleTime));
 		this.setState({enemy});
 
 		if (enemy.alive()) {
@@ -62,7 +64,7 @@ class App extends Component {
 			}
 
 			this.setState({hero});
-			this.startNewFight();
+			this.startNewBattle();
 		}
 	}
 
@@ -70,23 +72,24 @@ class App extends Component {
 		let hero = this.state.hero;
 		let enemy = this.state.enemy;
 
-		hero.changeHp(-enemy.tickDamage(this.state.time));
+		hero.changeHp(-enemy.tickDamage(this.state.battleTime));
 
 		if (!hero.alive()) {
 			this.addToLog(`${hero.name} was defeated.`);
-			this.startNewFight();
+			this.startNewBattle();
 		}
 
 		this.setState({hero});
 	}
 
-	startNewFight() {
+	startNewBattle() {
 		let hero = this.state.hero;
 		let enemy = this.generateEnemy(this.state.level);
 
 		hero.fullyHeal();
 
 		this.setState({hero, enemy});
+		this.setState({battleTime: 0});
 	}
 
 	generateEnemy(level) {
