@@ -2,12 +2,13 @@ import React, { Component } from 'react';
 import './App.css';
 
 import * as Globals from './Globals';
-import Hero from './Hero';
-import Enemy from './Enemy';
+import Hero from './classes/Hero';
+import Enemy from './classes/Enemy';
 
 import MainWindow from './MainWindow';
 import HeroStatBars from './HeroStatBars';
 import Log from './Log';
+import InventoryItem from './InventoryItem';
 
 class App extends Component {
 	constructor(props) {
@@ -60,7 +61,12 @@ class App extends Component {
 
 			for (let item of enemy.inventory) {
 				hero.pickUpItem(item);
-				this.addToLog(`You found a ${item.name}.`);
+				// this.addToLog(`You found a ${item.name}.`);
+				this.addToLog(
+					<span>
+						You found a <InventoryItem item={item} />.
+					</span>
+				);
 			}
 
 			this.setState({hero});
@@ -130,18 +136,13 @@ class App extends Component {
 				intelligence: intelligence,
 				drops: [
 					{
-						chance: 0.02,
+						chance: 0.5,
 						item: "weapon",
 						level: level
 					},
 					{
-						chance: 0.01,
+						chance: 0.5,
 						item: "armour",
-						level: level
-					},
-					{
-						chance: 0.005,
-						item: "consumable",
 						level: level
 					},
 				],
@@ -152,7 +153,7 @@ class App extends Component {
 	useItem(item) {
 		let hero = this.state.hero;
 
-		hero.equipWeapon(item);
+		hero.useItem(item);
 		this.setState({hero});
 	}
 

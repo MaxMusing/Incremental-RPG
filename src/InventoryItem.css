@@ -1,0 +1,40 @@
+.InventoryItem {
+	display: inline-block;
+	cursor: pointer;
+}
+
+.InventoryItem:hover {
+	text-decoration: underline;
+}
+
+.ItemName {
+	font-weight: bold;
+}
+
+.TooltipTrigger {
+	position: relative;
+}
+
+.Tooltip {
+	display: none;
+}
+
+.TooltipTrigger:hover > .Tooltip {
+	display: block;
+	background: white;
+	border: 1px solid black;
+	padding: 0.75rem;
+	width: auto;
+	white-space: nowrap;
+
+	z-index: 10;
+	position: absolute;
+	top: 50%;
+	right: 0rem;
+	transform: translate(calc(100% + 0.5rem), -50%);
+}
+
+.TooltipInfo {
+	margin: 0;
+	line-height: 1.25rem;
+}

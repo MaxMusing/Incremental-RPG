@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import './Log.css';
 
+import InventoryItem from './InventoryItem';
+
 class Log extends Component {
 	renderLog() {
 		let log = this.props.log.map((message, index) => {

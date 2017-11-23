@@ -2,6 +2,9 @@ import Character from './Character';
 import { getItem } from './Items';
 
 import Weapon from './Weapon';
+import HeadArmour from './HeadArmour';
+import ChestArmour from './ChestArmour';
+import LegArmour from './LegArmour';
 
 class Enemy extends Character {
 	constructor(props) {
@@ -33,6 +36,30 @@ class Enemy extends Character {
 							name: item.name,
 							damage: item.damage,
 							attackSpeed: item.attackSpeed,
+						})
+					);
+				case HeadArmour:
+					return (
+						new HeadArmour({
+							name: item.name,
+							defence: item.defence,
+							attackSpeedMultiplier: item.attackSpeedMultiplier,
+						})
+					);
+				case ChestArmour:
+					return (
+						new ChestArmour({
+							name: item.name,
+							defence: item.defence,
+							attackSpeedMultiplier: item.attackSpeedMultiplier,
+						})
+					);
+				case LegArmour:
+					return (
+						new LegArmour({
+							name: item.name,
+							defence: item.defence,
+							attackSpeedMultiplier: item.attackSpeedMultiplier,
 						})
 					);
 				default:

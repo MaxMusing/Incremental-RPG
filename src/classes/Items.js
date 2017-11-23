@@ -1,4 +1,7 @@
 import Weapon from './Weapon';
+import HeadArmour from './HeadArmour';
+import ChestArmour from './ChestArmour';
+import LegArmour from './LegArmour';
 
 let allItems = {
 	item: {
@@ -52,13 +55,67 @@ let allItems = {
 				},
 			},
 			armour: {
-				leatherVest: {
-					name: 'Leather Vest',
-					level: 4,
+				headArmour: {
+					leatherCap: {
+						name: 'Leather Cap',
+						type: HeadArmour,
+						level: 2,
+						defence: 1,
+						attackSpeedMultiplier: 1,
+					},
+					ironHelmet: {
+						name: 'Iron Helmet',
+						type: HeadArmour,
+						level: 12,
+						defence: 2,
+						attackSpeedMultiplier: 0.9,
+					},
+					ironFullHelmet: {
+						name: 'Iron Full Helmet',
+						type: HeadArmour,
+						level: 17,
+						defence: 3,
+						attackSpeedMultiplier: 0.8,
+					},
 				},
-				leatherChaps: {
-					name: 'Leather Chaps',
-					level: 4,
+				chestArmour: {
+					leatherVest: {
+						name: 'Leather Vest',
+						type: ChestArmour,
+						level: 3,
+						defence: 1,
+						attackSpeedMultiplier: 1,
+					},
+					ironChainMail: {
+						name: 'Iron Chain Body',
+						type: ChestArmour,
+						level: 13,
+						defence: 2,
+						attackSpeedMultiplier: 0.9,
+					},
+					ironChestplate: {
+						name: 'Iron Plate Body',
+						type: ChestArmour,
+						level: 18,
+						defence: 3,
+						attackSpeedMultiplier: 0.8,
+					},
+				},
+				legArmour: {
+					leatherChaps: {
+						name: 'Leather Chaps',
+						type: LegArmour,
+						level: 4,
+						defence: 1,
+						attackSpeedMultiplier: 1,
+					},
+					ironPlateLegs: {
+						name: 'Iron Plate Legs',
+						type: LegArmour,
+						level: 14,
+						defence: 3,
+						attackSpeedMultiplier: 0.8,
+					},
 				},
 			},
 		},

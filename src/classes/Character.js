@@ -1,5 +1,8 @@
-import * as Globals from './Globals';
+import * as Globals from '../Globals';
 import Weapon from './Weapon';
+import HeadArmour from './HeadArmour';
+import ChestArmour from './ChestArmour';
+import LegArmour from './LegArmour';
 
 const baseName = 'Character';
 const baseLevel = 1;
@@ -8,6 +11,21 @@ const defaultWeapon = new Weapon({
 	name: 'Fists',
 	damage: 5,
 	attackSpeed: 1,
+});
+const defaultHeadArmour = new HeadArmour({
+	name: 'None',
+	defence: 0,
+	attackSpeedMultiplier: 1,
+});
+const defaultChestArmour = new ChestArmour({
+	name: 'Shirt',
+	defence: 0,
+	attackSpeedMultiplier: 1,
+});
+const defaultLegArmour = new LegArmour({
+	name: 'Pants',
+	defence: 0,
+	attackSpeedMultiplier: 1,
 });
 
 class Character {
@@ -28,6 +46,9 @@ class Character {
 		this.hp = props.hp || this.hpMax();
 		this.equipment = {
 			weapon: props.weapon || defaultWeapon,
+			headArmour: props.headArmour || defaultHeadArmour,
+			chestArmour: props.chestArmour || defaultChestArmour,
+			legArmour: props.legArmour || defaultLegArmour,
 		}
 	}
 
@@ -65,6 +86,14 @@ class Character {
 		);
 	}
 
+	defence() {
+		return (
+			this.equipment.headArmour.defence +
+			this.equipment.chestArmour.defence +
+			this.equipment.legArmour.defence
+		);
+	}
+
 	attackSpeedMultiplier() {
 		const dexterityMultiplier = 1.1;
 
@@ -75,7 +104,11 @@ class Character {
 
 	attackSpeed() {
 		return (
-			this.equipment.weapon.attackSpeed * this.attackSpeedMultiplier()
+			this.equipment.weapon.attackSpeed *
+			this.equipment.headArmour.attackSpeedMultiplier *
+			this.equipment.chestArmour.attackSpeedMultiplier *
+			this.equipment.legArmour.attackSpeedMultiplier *
+			this.attackSpeedMultiplier()
 		);
 	}
 
@@ -164,8 +197,64 @@ class Character {
 		this.inventory.push(item);
 	}
 
-	equipWeapon(weapon) {
-		this.equipment.weapon = weapon;
+	useItem(item) {
+		const inventoryIndex = this.inventory.indexOf(item);
+
+		switch (item.constructor) {
+			case Weapon:
+				if (this.equipment.weapon !== defaultWeapon) {
+					this.inventory.push(this.equipment.weapon);
+				}
+
+				this.equipment.weapon = item;
+
+				if (inventoryIndex !== -1) {
+					this.inventory.splice(inventoryIndex, 1);
+				}
+				break;
+			case HeadArmour:
+				if (this.equipment.headArmour !== defaultHeadArmour) {
+					this.inventory.push(this.equipment.headArmour);
+				}
+
+				this.equipment.headArmour = item;
+
+				if (inventoryIndex !== -1) {
+					this.inventory.splice(inventoryIndex, 1);
+				}
+				break;
+			case ChestArmour:
+				if (this.equipment.chestArmour !== defaultChestArmour) {
+					this.inventory.push(this.equipment.chestArmour);
+				}
+
+				this.equipment.chestArmour = item;
+
+				if (inventoryIndex !== -1) {
+					this.inventory.splice(inventoryIndex, 1);
+				}
+				break;
+			case LegArmour:
+				if (this.equipment.legArmour !== defaultLegArmour) {
+					this.inventory.push(this.equipment.legArmour);
+				}
+
+				this.equipment.legArmour = item;
+
+				if (inventoryIndex !== -1) {
+					this.inventory.splice(inventoryIndex, 1);
+				}
+				break;
+		}
+	}
+
+	itemEquipped(item) {
+		return (
+			item === this.equipment.weapon ||
+			item === this.equipment.headArmour ||
+			item === this.equipment.chestArmour ||
+			item === this.equipment.legArmour
+		);
 	}
 }
 
