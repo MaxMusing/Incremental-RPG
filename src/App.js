@@ -48,7 +48,8 @@ class App extends Component {
 		let hero = this.state.hero;
 		let enemy = this.state.enemy;
 
-		enemy.changeHp(-hero.tickDamage(this.state.battleTime));
+		const damage = Math.max(0, hero.tickDamage(this.state.battleTime) - enemy.defence());
+		enemy.changeHp(-damage);
 		this.setState({enemy});
 
 		if (enemy.alive()) {
@@ -61,7 +62,6 @@ class App extends Component {
 
 			for (let item of enemy.inventory) {
 				hero.pickUpItem(item);
-				// this.addToLog(`You found a ${item.name}.`);
 				this.addToLog(
 					<span>
 						You found a <InventoryItem item={item} />.
@@ -78,7 +78,8 @@ class App extends Component {
 		let hero = this.state.hero;
 		let enemy = this.state.enemy;
 
-		hero.changeHp(-enemy.tickDamage(this.state.battleTime));
+		const damage = Math.max(0, enemy.tickDamage(this.state.battleTime) - hero.defence());
+		hero.changeHp(-damage);
 
 		if (!hero.alive()) {
 			this.addToLog(`${hero.name} was defeated.`);
@@ -136,12 +137,12 @@ class App extends Component {
 				intelligence: intelligence,
 				drops: [
 					{
-						chance: 0.5,
+						chance: 0.01,
 						item: "weapon",
 						level: level
 					},
 					{
-						chance: 0.5,
+						chance: 0.01,
 						item: "armour",
 						level: level
 					},
